@@ -15,6 +15,13 @@ public class NotificationDto {
     private LocalDateTime createdAt;
     private LocalDateTime sentAt;
 
+    public NotificationDto(Long id, String message, NotificationStatus status, NotificationType type) {
+        this.id = id;
+        this.message = message;
+        this.status = status;
+        this.type = type;
+    }
+
     // Getters ve Setters
     public Long getId() {
         return id;
