@@ -1,0 +1,19 @@
+server:
+  port: 9092
+spring:
+  application:
+    name: demo
+  datasource:
+    url: jdbc:mysql://localhost:3306/demo?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+
+    username: root
+    password: 2461.Atay
+    driverClassName: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+  security:
+    user:
+      password: 123
+      name: name
