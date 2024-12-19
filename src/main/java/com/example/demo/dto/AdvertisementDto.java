@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-
+@AllArgsConstructor
 @Builder
 public class AdvertisementDto {
     private Long id;
