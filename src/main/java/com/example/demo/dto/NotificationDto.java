@@ -3,6 +3,7 @@ package com.example.demo.dto;
 
 import com.example.demo.entity.NotificationType;
 import com.example.demo.entity.NotificationStatus;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
@@ -15,8 +16,11 @@ public class NotificationDto {
     private LocalDateTime createdAt;
     private LocalDateTime sentAt;
 
-    public NotificationDto(Long id, String message, NotificationStatus status, NotificationType type) {
+    public NotificationDto(){}
+
+    public NotificationDto(Long id, String recipient, String message, NotificationStatus status, NotificationType type) {
         this.id = id;
+        this.recipient = recipient;
         this.message = message;
         this.status = status;
         this.type = type;

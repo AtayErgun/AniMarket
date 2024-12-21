@@ -20,6 +20,7 @@ public class EmailService {
         mailMessage.setTo(to);
         mailMessage.setSubject(subject);
         mailMessage.setText(message);
+       // mailMessage.setFrom("denememail837@gmail.com");
         mailSender.send(mailMessage);
     }
 }

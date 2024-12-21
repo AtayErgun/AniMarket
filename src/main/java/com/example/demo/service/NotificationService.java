@@ -5,11 +5,8 @@ import com.example.demo.entity.Notification;
 import com.example.demo.entity.NotificationType;
 import com.example.demo.repository.NotificationRepository;
 import com.example.demo.request.NotificationRequest;
-import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 
 import java.time.LocalDateTime;
 
@@ -29,7 +26,7 @@ public class NotificationService {
     }
 
     public NotificationDto sendEmailNotification(NotificationRequest request) {
-        Notification notification = new Notification();
+        NotificationDto notification = new NotificationDto();
         notification.setMessage(request.getMessage());
         notification.setRecipient(request.getRecipient());
         notification.setType(NotificationType.EMAIL);
@@ -44,7 +41,16 @@ public class NotificationService {
             notification.setStatus(FAILED);
         }
 
-        return convertToDto(notificationRepository.save(notification));
+        return convertToDto(notificationRepository.save(toEntity(notification)));
+    }
+
+    private Notification toEntity(NotificationDto notification) {
+        return new Notification(
+                notification.getId(),
+                notification.getMessage(),
+                notification.getStatus(),
+                notification.getType()
+        );
     }
 
     public NotificationDto sendSmsNotification(NotificationRequest request) {
@@ -71,10 +77,12 @@ public class NotificationService {
     public NotificationDto convertToDto(Notification notification) {
         return new NotificationDto(
                 notification.getId(),
+                notification.getRecipient(),
                 notification.getMessage(),
                 notification.getStatus(),
                 notification.getType()
         );
     }
+
 
 }

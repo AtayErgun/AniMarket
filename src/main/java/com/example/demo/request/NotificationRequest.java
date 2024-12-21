@@ -1,9 +1,17 @@
 package com.example.demo.request;
 
 import com.example.demo.entity.NotificationType;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+
 
 public class NotificationRequest {
+    @NotNull(message = "Recipient boş olamaz")
+    @NotEmpty(message = "Recipient boş olamaz")
     private String recipient;
+
+    @NotNull(message = "Message boş olamaz")
+    @NotEmpty(message = "Message boş olamaz")
     private String message;
     private NotificationType type;
 

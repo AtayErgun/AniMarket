@@ -2,15 +2,25 @@ package com.example.demo.entity;
 
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "notifications")
 public class Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    public Notification(Long id, String message, NotificationStatus status, NotificationType type) {
+        this.id=id;
+        this.message=message;
+        this.status=status;
+        this.type=type;
+    }
 
     public Long getId() {
         return id;
@@ -86,11 +96,11 @@ public class Notification {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private NotificationStatus status; // PENDING, SENT, FAILED
+    private NotificationStatus status;
 
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
-        this.status = NotificationStatus.PENDING; // Varsayılan olarak PENDING
+        this.status = NotificationStatus.PENDING;
     }
 }

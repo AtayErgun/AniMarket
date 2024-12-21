@@ -13,9 +13,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/notifications")
 public class NotificationController {
 
-    @Autowired
-    private NotificationService notificationService;
+    private final NotificationService notificationService;
 
+    @Autowired
+    public NotificationController(NotificationService notificationService) {
+        this.notificationService = notificationService;
+    }
 
     @PostMapping("/email")
     public ResponseEntity<NotificationDto> sendEmail(@RequestBody NotificationRequest request) {
@@ -23,10 +26,13 @@ public class NotificationController {
             NotificationDto response = notificationService.sendEmailNotification(request);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            return ResponseEntity.status(500).body(new NotificationDto(null, "Email gönderilemedi: " + e.getMessage(), NotificationStatus.FAILED, NotificationType.EMAIL));
+            NotificationDto errorResponse = new NotificationDto();
+            errorResponse.setMessage("Email gönderilemedi: " + e.getMessage());
+            errorResponse.setStatus(NotificationStatus.FAILED);
+            errorResponse.setType(NotificationType.EMAIL);
+            return ResponseEntity.status(500).body(errorResponse);
         }
     }
-
 
     @PostMapping("/sms")
     public ResponseEntity<NotificationDto> sendSms(@RequestBody NotificationRequest request) {
@@ -34,7 +40,11 @@ public class NotificationController {
             NotificationDto response = notificationService.sendSmsNotification(request);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            return ResponseEntity.status(500).body(new NotificationDto(null, "SMS gönderilemedi: " + e.getMessage(), NotificationStatus.FAILED, NotificationType.SMS));
+            NotificationDto errorResponse = new NotificationDto();
+            errorResponse.setMessage("SMS gönderilemedi: " + e.getMessage());
+            errorResponse.setStatus(NotificationStatus.FAILED);
+            errorResponse.setType(NotificationType.SMS);
+            return ResponseEntity.status(500).body(errorResponse);
         }
     }
 }
