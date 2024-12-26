@@ -49,12 +49,13 @@ public class NotificationService {
                 notification.getId(),
                 notification.getMessage(),
                 notification.getStatus(),
-                notification.getType()
+                notification.getType(),
+                notification.getRecipient()
         );
     }
 
     public NotificationDto sendSmsNotification(NotificationRequest request) {
-        Notification notification = new Notification();
+        NotificationDto notification = new NotificationDto();
         notification.setMessage(request.getMessage());
         notification.setRecipient(request.getRecipient());
         notification.setType(NotificationType.SMS);
@@ -72,7 +73,7 @@ public class NotificationService {
             notification.setStatus(FAILED);
         }
 
-        return convertToDto(notificationRepository.save(notification));
+        return convertToDto(notificationRepository.save(toEntity(notification)));
     }
     public NotificationDto convertToDto(Notification notification) {
         return new NotificationDto(

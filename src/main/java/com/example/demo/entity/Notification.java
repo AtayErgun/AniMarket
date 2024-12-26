@@ -15,11 +15,12 @@ public class Notification {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    public Notification(Long id, String message, NotificationStatus status, NotificationType type) {
+    public Notification(Long id, String message, NotificationStatus status, NotificationType type, String recipient) {
         this.id=id;
         this.message=message;
         this.status=status;
         this.type=type;
+        this.recipient=recipient;
     }
 
     public Long getId() {
