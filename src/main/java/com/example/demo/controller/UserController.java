@@ -1,8 +1,11 @@
 package com.example.demo.controller;
 
 
+import com.example.demo.dto.LoginResponseDto;
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.request.LoginRequest;
+import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,6 +20,8 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private UserService userService;
 
     @Autowired
     @Qualifier("customPasswordEncoder")
@@ -28,5 +33,10 @@ public class UserController {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         return "User registered successfully!";
+    }
+
+    @PostMapping("/login")
+    public LoginResponseDto login(@RequestBody LoginRequest loginRequest) {
+        return userService.authenticate(loginRequest.getEmail(), loginRequest.getPassword());
     }
 }
